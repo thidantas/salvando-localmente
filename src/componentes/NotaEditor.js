@@ -14,16 +14,31 @@ export default function NotaEditor() {
   const [texto, setTexto] = useState("");
   const [modalVisivel, setModalVisivel] = useState(false);
 
-  async function salvaNota() {
-    const umaNota = {
+  // async function salvaNota() {
+  //   const umaNota = {
+  //     id: "1",
+  //     texto: texto,
+  //   };
+  //   await AsyncStorage.setItem(umaNota.id, umaNota.texto);
+  //   mostraNota();
+  // }
+  // async function mostraNota() {
+  //   console.log(await AsyncStorage.getItem("1"));
+  // }
+
+  async function salvaObjeto() {
+    const umObjeto = {
       id: "1",
-      texto: texto,
+      titulo: "Um título",
+      texto: "Um texto qualquer",
     };
-    await AsyncStorage.setItem(umaNota.id, umaNota.texto);
-    mostraNota();
+    await AsyncStorage.setItem(umObjeto.id, JSON.stringify(umObjeto));
+    mostraObjeto();
   }
-  async function mostraNota() {
-    console.log(await AsyncStorage.getItem("1"));
+
+  async function mostraObjeto() {
+    const entrada = await AsyncStorage.getItem("1");
+    console.log(JSON.parse(entrada));
   }
 
   return (
@@ -53,7 +68,8 @@ export default function NotaEditor() {
                 <TouchableOpacity
                   style={estilos.modalBotaoSalvar}
                   onPress={() => {
-                    salvaNota();
+                    // salvaNota();
+                    salvaObjeto();
                   }}
                 >
                   <Text style={estilos.modalBotaoTexto}>Salvar</Text>
