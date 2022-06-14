@@ -1,3 +1,3 @@
 # salvando-localmente
 
-## Projeto desenvolvido utilizando o Expo para React Native
+### Projeto desenvolvido utilizando o Expo para React Native
