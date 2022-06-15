@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { adicionaNota } from "../servicos/Notas";
 
 export default function NotaEditor({ mostraNotas }) {
   const [titulo, setTitulo] = useState("");
@@ -18,10 +19,11 @@ export default function NotaEditor({ mostraNotas }) {
 
   async function salvaNota() {
     const umaNota = {
-      id: "1",
+      titulo: titulo,
+      categoria: categoria,
       texto: texto,
     };
-    console.log(umaNota);
+    await adicionaNota(umaNota);
     mostraNotas();
   }
 
@@ -42,7 +44,7 @@ export default function NotaEditor({ mostraNotas }) {
               <Text style={estilos.modalSubTitulo}>Título da nota</Text>
               <TextInput
                 style={estilos.modalInput}
-                onChangeText={(novoTitulo) => setTexto(novoTitulo)}
+                onChangeText={(novoTitulo) => setTitulo(novoTitulo)}
                 placeholder="Digite um título"
                 value={titulo}
               />
