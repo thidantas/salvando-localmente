@@ -7,11 +7,13 @@ export function Nota({ item }) {
     Outros: "#00911F",
     Trabalho: "#2F71EB",
   };
-  const style = styleFunction(categorias["Pessoal"]);
+  const estilos = styleFunction(categorias[""]);
 
   return (
     <View style={style.cartao}>
-      <Text style={style.texto} numberOfLines={5}>
+      <Text style={estilos.titulo}></Text>
+      <Text style={estilos.categoria}></Text>
+      <Text style={stilos.texto} numberOfLines={5}>
         {item[1]}
       </Text>
     </View>

@@ -1,7 +1,7 @@
-import { SQLite } from "expo-sqlite";
+import * as SQLite from "expo-sqlite";
 
-function abreConexão() {
-  const database = SQLite.OpenDatabase("db.db");
+function abreConexao() {
+  const database = SQLite.openDatabase("db.db");
   return database;
 }
 
