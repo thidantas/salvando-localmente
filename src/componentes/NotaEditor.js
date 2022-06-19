@@ -9,19 +9,27 @@ import {
   ScrollView,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { adicionaNota } from "../servicos/Notas";
+import { adicionaNota, atualizaNota } from "../servicos/Notas";
 
-export default function NotaEditor({ mostraNotas, notaSelecionada }) {
+export default function NotaEditor({
+  mostraNotas,
+  notaSelecionada,
+  setNotaSelecionada,
+}) {
   useEffect(() => {
     if (notaSelecionada.id) {
       preencheModal();
+      setNotaParaAtualizar(true);
       setModalVisivel(true);
+      return;
     }
+    setNotaParaAtualizar(false);
   }, [notaSelecionada]);
   const [titulo, setTitulo] = useState("");
   const [categoria, setCategoria] = useState("Pessoal");
   const [texto, setTexto] = useState("");
   const [modalVisivel, setModalVisivel] = useState(false);
+  const [notaParaAtualizar, setNotaParaAtualizar] = useState(false);
 
   async function salvaNota() {
     const umaNota = {
@@ -33,10 +41,29 @@ export default function NotaEditor({ mostraNotas, notaSelecionada }) {
     mostraNotas();
   }
 
+  async function modificaNota() {
+    const umaNota = {
+      titulo: titulo,
+      categoria: categoria,
+      texto: texto,
+      id: notaSelecionada.id,
+    };
+    await atualizaNota(umaNota);
+    mostraNotas();
+  }
+
   function preencheModal() {
     setTitulo(notaSelecionada.titulo);
     setCategoria(notaSelecionada.categoria);
     setTexto(notaSelecionada.texto);
+  }
+
+  function limpaModal() {
+    setTitulo("");
+    setCategoria("Pessoal");
+    setTexto("");
+    setNotaSelecionada({});
+    setModalVisivel(false);
   }
 
   return (
@@ -84,7 +111,7 @@ export default function NotaEditor({ mostraNotas, notaSelecionada }) {
                 <TouchableOpacity
                   style={estilos.modalBotaoSalvar}
                   onPress={() => {
-                    salvaNota();
+                    notaParaAtualizar ? modificaNota() : salvaNota();
                   }}
                 >
                   <Text style={estilos.modalBotaoTexto}>Salvar</Text>
@@ -92,7 +119,7 @@ export default function NotaEditor({ mostraNotas, notaSelecionada }) {
                 <TouchableOpacity
                   style={estilos.modalBotaoCancelar}
                   onPress={() => {
-                    setModalVisivel(false);
+                    limpaModal();
                   }}
                 >
                   <Text style={estilos.modalBotaoTexto}>Cancelar</Text>
