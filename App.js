@@ -27,7 +27,11 @@ export default function App() {
         )}
         keyExtractor={(nota) => nota.id}
       />
-      <NotaEditor mostraNotas={mostraNotas} notaSelecionada={notaSelecionada} />
+      <NotaEditor
+        mostraNotas={mostraNotas}
+        notaSelecionada={notaSelecionada}
+        setNotaSelecionada={setNotaSelecionada}
+      />
       <StatusBar />
     </SafeAreaView>
   );
