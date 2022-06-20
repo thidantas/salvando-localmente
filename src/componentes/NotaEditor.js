@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { adicionaNota, atualizaNota } from "../servicos/Notas";
+import { adicionaNota, atualizaNota, removeNota } from "../servicos/Notas";
 
 export default function NotaEditor({
   mostraNotas,
@@ -39,6 +39,7 @@ export default function NotaEditor({
     };
     await adicionaNota(umaNota);
     mostraNotas();
+    limpaModal();
   }
 
   async function modificaNota() {
@@ -50,6 +51,13 @@ export default function NotaEditor({
     };
     await atualizaNota(umaNota);
     mostraNotas();
+    limpaModal();
+  }
+
+  async function deletaNota() {
+    await removeNota(notaSelecionada);
+    mostraNotas();
+    limpaModal();
   }
 
   function preencheModal() {
@@ -116,6 +124,18 @@ export default function NotaEditor({
                 >
                   <Text style={estilos.modalBotaoTexto}>Salvar</Text>
                 </TouchableOpacity>
+                {notaParaAtualizar ? (
+                  <TouchableOpacity
+                    style={estilos.modalBotaoDeletar}
+                    onPress={() => {
+                      deletaNota();
+                    }}
+                  >
+                    <Text style={estilos.modalBotaoTexto}>Deletar</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <></>
+                )}
                 <TouchableOpacity
                   style={estilos.modalBotaoCancelar}
                   onPress={() => {
